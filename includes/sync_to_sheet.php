@@ -8,6 +8,10 @@ use Google\Service\Sheets\ValueRange;
 function syncTicketsToGoogleSheet($bufferPath, $spreadsheetId, $sheetName, $jsonKeyPath)
 {
     $client = new Client();
+    // FIX : injection d'un cache explicite pour eviter l'appel a createDefaultCache()
+    // qui cherche Google\Auth\Cache\MemoryCacheItemPool (supprime par le cleanup Composer).
+    // InMemoryCacheItemPool est l'alternative officielle, presente dans google/auth.
+    $client->setCache(new \Google\Auth\Cache\InMemoryCacheItemPool());
     $client->setApplicationName('TicketsKin Sync');
     $client->setScopes([Sheets::SPREADSHEETS]);
     $client->setAuthConfig($jsonKeyPath);
@@ -15,22 +19,20 @@ function syncTicketsToGoogleSheet($bufferPath, $spreadsheetId, $sheetName, $json
 
     $service = new Sheets($client);
 
-    // Vérifier l'existence du buffer
+    // Verifier l'existence du buffer
     if (!file_exists($bufferPath)) {
         return ['success' => false, 'message' => 'Buffer not found.'];
     }
 
     $rows = array_map('str_getcsv', file($bufferPath));
     if (count($rows) === 0) {
-        return ['success' => true, 'message' => 'Aucun ticket à synchroniser.'];
+        return ['success' => true, 'message' => 'Aucun ticket a synchroniser.'];
     }
 
     $dataToSend = [];
-
     foreach ($rows as $row) {
         if (count($row) < 7) continue;
         list($date, $heure, $agent, $commune, $marche, $montant, $ticketNum) = $row;
-
         $dataToSend[] = [
             $ticketNum,
             $marche,
@@ -55,11 +57,9 @@ function syncTicketsToGoogleSheet($bufferPath, $spreadsheetId, $sheetName, $json
             $body,
             ['valueInputOption' => 'RAW']
         );
-
         // Vider le buffer
         file_put_contents($bufferPath, '');
-
-        return ['success' => true, 'message' => count($dataToSend) . " tickets synchronisés avec succès."];
+        return ['success' => true, 'message' => count($dataToSend) . " tickets synchronises avec succes."];
     } catch (Exception $e) {
         return ['success' => false, 'message' => 'Erreur : ' . $e->getMessage()];
     }
