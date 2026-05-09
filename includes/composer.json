@@ -4,16 +4,8 @@
     "type": "project",
     "require": {
         "php": ">=8.0",
-        "google/apiclient": "2.15"
-    },
-    "scripts": {
-        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
-    },
-    "extra": {
-        "google/apiclient-services": [
-            "Sheets",
-            "Drive"
-        ]
+        "google/apiclient": "2.15",
+        "psr/cache": "^3.0"
     },
     "config": {
         "optimize-autoloader": true,
