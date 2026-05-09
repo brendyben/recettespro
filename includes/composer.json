@@ -1,0 +1,22 @@
+{
+    "name": "amerikinllc/recettespro",
+    "description": "Systeme de collecte des recettes publiques - Ville de Kinshasa",
+    "type": "project",
+    "require": {
+        "php": ">=8.0",
+        "google/apiclient": "2.15"
+    },
+    "scripts": {
+        "pre-autoload-dump": "Google\\Task\\Composer::cleanup"
+    },
+    "extra": {
+        "google/apiclient-services": [
+            "Sheets",
+            "Drive"
+        ]
+    },
+    "config": {
+        "optimize-autoloader": true,
+        "sort-packages": true
+    }
+}

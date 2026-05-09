@@ -1,0 +1,109 @@
+# ============================================================
+# RecettesPro (R-Pro) - .gitignore
+# ============================================================
+# CRITIQUE : ce fichier protege les secrets et donnees fiscales.
+# NE PAS modifier sans comprendre les consequences.
+# ============================================================
+
+# ===== SECRETS - NE JAMAIS PUSHER =====
+
+# Cle Google Sheets API (CRITIQUE)
+includes/client_secret.json
+**/client_secret*.json
+
+# Variables d'environnement
+.env
+.env.*
+!.env.example
+
+# Tout fichier de credentials
+**/credentials*.json
+**/*-key.json
+**/secret*.json
+
+# ===== DONNEES VIVANTES (pas de versionning) =====
+
+# Tickets en cours de synchronisation
+data/tickets_buffer.csv
+data/ticket_index.csv
+
+# Backups potentiels du dossier data/
+data/*.bak
+data/*~
+data/backup_*
+
+# ===== LOGS =====
+
+*.log
+logs/
+error_log
+php_errors.log
+
+# ===== FICHIERS TEMPORAIRES =====
+
+# Backups generaux
+*.bak
+*.old
+*.orig
+*~
+*.swp
+*.swo
+
+# Archives temporaires
+*.tmp
+*.temp
+
+# ===== WINDOWS =====
+
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+
+# ===== MACOS =====
+
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+
+# ===== EDITEURS / IDE =====
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# JetBrains (PhpStorm, IntelliJ)
+.idea/
+*.iml
+
+# Sublime Text
+*.sublime-project
+*.sublime-workspace
+
+# ===== XAMPP / DEV LOCAL =====
+
+# Sessions PHP locales
+sess_*
+php_sessions/
+
+# Cache local
+cache/
+.cache/
+
+# ===== COMPOSER =====
+
+# Le dossier vendor/ EST pousse (decision projet pour eviter composer install sur le VPS)
+# Si tu changes d'avis : decommenter la ligne suivante
+# includes/vendor/
+
+# ===== BASES DE DONNEES (si un jour MySQL) =====
+
+*.sql
+*.sql.gz
+*.dump
+
+# ===== EXPORTS TEMPORAIRES =====
+
+exports/
+*.export
